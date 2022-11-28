@@ -1,0 +1,18 @@
+import {createSlice} from '@reduxjs/toolkit';
+
+const uiSlice = createSlice({
+  name: "ui",
+  initialState: {
+    //this prop controls whether the cart is visible or not
+    cartIsVisible: false,
+  },
+  reducers: {
+    toggle(state) {
+      state.cartIsVisible = !state.cartIsVisible;
+    }
+  }
+});
+
+export const uiActions = uiSlice.actions;
+
+export defualt uiSlice;
