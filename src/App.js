@@ -7,6 +7,8 @@ import Products from './components/Shop/Products';
 import { uiActions } from './store/ui-slice';
 import Notification from './components/UI/Notification';
 
+let isInitial = true; 
+
 function App() {
   const dispatch = useDispatch();
   const showCart = useSelector((state) => state.ui.cartIsVisible);
@@ -43,6 +45,12 @@ function App() {
           message: "Cart data has been sent successfully!",
         })
       );
+    };
+
+    //if the cart is just being loaded, no cart data will be sent. only does this once!
+    if (isInitial) {
+      isInitial = false;
+      return;
     };
 
     //catch any error that may have occurred and show error message
