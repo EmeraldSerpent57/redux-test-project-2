@@ -48,7 +48,6 @@ const Products = (props) => {
             description={product.description}
           />
         ))}
-        
       </ul>
     </section>
   );

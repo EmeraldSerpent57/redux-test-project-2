@@ -5,7 +5,9 @@ import { cartActions } from './cart-slice';
 export const fetchCartData = () => {
     return async (dispatch) => {
         const fetchData = async () => {
-            const response = await fetch("https://redux-test-project-2-default-rtdb.firebaseio.com/cart.json");
+            const response = await fetch(
+              "https://redux-test-project-2-default-rtdb.firebaseio.com/cart.json"
+              );
             
             if (!response.ok) {
                 throw new Error('Could not fetch cart data.');
@@ -18,7 +20,12 @@ export const fetchCartData = () => {
 
         try {
             const cartData = await fetchData();
-            dispatch(cartActions.replaceCart(cartData));
+            dispatch(
+              cartActions.replaceCart({
+                items: cartData.items || [],
+                totalQuantity: cartData.totalQuantity,
+              })
+             );
         } catch (error) {
             dispatch(
                 uiActions.showNotification({
@@ -47,7 +54,13 @@ export const sendCartData = (cart) => {
           //then we send the data to the firebase backend
           const response = await fetch(
             "https://redux-test-project-2-default-rtdb.firebaseio.com/cart.json",
-            { method: "PUT", body: JSON.stringify(cart) }
+            { 
+              method: "PUT", 
+              body: JSON.stringify({
+                items: cart.items,
+                totalQuantity: cart.totalQuantity,
+              }),
+            }
           );
 
           //is there an error?
@@ -58,6 +71,7 @@ export const sendCartData = (cart) => {
 
     try{
         await sendRequest();
+
         //notification that data send was successful
        dispatch(
         uiActions.showNotification({
@@ -75,7 +89,6 @@ export const sendCartData = (cart) => {
               message: "Sending cart data failed!",
             })
           );
-    }
-
+       }
     };
 };
